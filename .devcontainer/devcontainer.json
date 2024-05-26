@@ -59,7 +59,6 @@
   "mounts": [
     // Home Assistant config
     "source=${localWorkspaceFolder}/../config,target=${containerWorkspaceFolder}/config,type=bind",
-    "source",
 
     // Rf4ch integration
     "source=${localWorkspaceFolder}/../integration.rf4ch/custom_components/rf4ch,target=${containerWorkspaceFolder}/config/custom_components/rf4ch,type=bind"
