@@ -2,6 +2,10 @@
 
 DOMAIN = "pyload"
 
-DEFAULT_HOST = "localhost"
 DEFAULT_NAME = "pyLoad"
 DEFAULT_PORT = 8000
+
+MANUFACTURER = "pyLoad Team"
+SERVICE_NAME = "pyLoad"
+
+UNIT_DOWNLOADS = "downloads"

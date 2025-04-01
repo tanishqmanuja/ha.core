@@ -241,7 +241,7 @@ async def test_pending_msg_peak(
     instance: http.WebSocketHandler = cast(http.WebSocketHandler, setup_instance)
 
     # Fill the queue past the allowed peak
-    for _ in range(10):
+    for _ in range(20):
         instance._send_message({"overload": "message"})
 
     async_fire_time_changed(
@@ -251,7 +251,7 @@ async def test_pending_msg_peak(
     msg = await websocket_client.receive()
     assert msg.type is WSMsgType.CLOSE
     assert "Client unable to keep up with pending messages" in caplog.text
-    assert "Stayed over 5 for 5 seconds" in caplog.text
+    assert "Stayed over 5 for 10 seconds" in caplog.text
     assert "overload" in caplog.text
 
 
@@ -363,12 +363,12 @@ async def test_non_json_message(
     assert "bad=<object" in caplog.text
 
 
-async def test_prepare_fail(
+async def test_prepare_fail_timeout(
     hass: HomeAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Test failing to prepare."""
+    """Test failing to prepare due to timeout."""
     with (
         patch(
             "homeassistant.components.websocket_api.http.web.WebSocketResponse.prepare",
@@ -379,6 +379,24 @@ async def test_prepare_fail(
         await hass_ws_client(hass)
 
     assert "Timeout preparing request" in caplog.text
+
+
+async def test_prepare_fail_connection_reset(
+    hass: HomeAssistant,
+    hass_ws_client: WebSocketGenerator,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Test failing to prepare due to connection reset."""
+    with (
+        patch(
+            "homeassistant.components.websocket_api.http.web.WebSocketResponse.prepare",
+            side_effect=(ConnectionResetError, web.WebSocketResponse.prepare),
+        ),
+        pytest.raises(ServerDisconnectedError),
+    ):
+        await hass_ws_client(hass)
+
+    assert "Connection reset by peer while preparing WebSocket" in caplog.text
 
 
 async def test_enable_coalesce(

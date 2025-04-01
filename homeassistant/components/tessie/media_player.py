@@ -8,11 +8,11 @@ from homeassistant.components.media_player import (
     MediaPlayerState,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import TessieConfigEntry
-from .coordinator import TessieStateUpdateCoordinator
 from .entity import TessieEntity
+from .models import TessieVehicleData
 
 STATES = {
     "Playing": MediaPlayerState.PLAYING,
@@ -20,11 +20,13 @@ STATES = {
     "Stopped": MediaPlayerState.IDLE,
 }
 
+PARALLEL_UPDATES = 0
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: TessieConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+    async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Tessie Media platform from a config entry."""
     data = entry.runtime_data
@@ -39,10 +41,10 @@ class TessieMediaEntity(TessieEntity, MediaPlayerEntity):
 
     def __init__(
         self,
-        coordinator: TessieStateUpdateCoordinator,
+        vehicle: TessieVehicleData,
     ) -> None:
         """Initialize the media player entity."""
-        super().__init__(coordinator, "media")
+        super().__init__(vehicle, "media")
 
     @property
     def state(self) -> MediaPlayerState:

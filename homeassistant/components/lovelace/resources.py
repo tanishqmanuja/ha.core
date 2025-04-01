@@ -34,11 +34,11 @@ class ResourceYAMLCollection:
 
     loaded = True
 
-    def __init__(self, data):
+    def __init__(self, data: list[dict[str, Any]]) -> None:
         """Initialize a resource YAML collection."""
         self.data = data
 
-    async def async_get_info(self):
+    async def async_get_info(self) -> dict[str, int]:
         """Return the resources info for YAML mode."""
         return {"resources": len(self.async_items() or [])}
 
@@ -62,7 +62,7 @@ class ResourceStorageCollection(collection.DictStorageCollection):
         )
         self.ll_config = ll_config
 
-    async def async_get_info(self):
+    async def async_get_info(self) -> dict[str, int]:
         """Return the resources info for YAML mode."""
         if not self.loaded:
             await self.async_load()
@@ -133,14 +133,9 @@ class ResourceStorageCollectionWebsocket(collection.DictStorageCollectionWebsock
     """Class to expose storage collection management over websocket."""
 
     @callback
-    def async_setup(
-        self,
-        hass: HomeAssistant,
-        *,
-        create_create: bool = True,
-    ) -> None:
+    def async_setup(self, hass: HomeAssistant) -> None:
         """Set up the websocket commands."""
-        super().async_setup(hass, create_create=create_create)
+        super().async_setup(hass)
 
         # Register lovelace/resources for backwards compatibility, remove in
         # Home Assistant Core 2025.1

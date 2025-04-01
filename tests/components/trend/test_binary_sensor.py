@@ -8,8 +8,10 @@ from freezegun.api import FrozenDateTimeFactory
 import pytest
 
 from homeassistant import setup
-from homeassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN
+from homeassistant.components.trend.const import DOMAIN
+from homeassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, STATE_UNKNOWN
 from homeassistant.core import HomeAssistant, State
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.setup import async_setup_component
 
 from .conftest import ComponentSetup
@@ -350,3 +352,88 @@ async def test_invalid_min_sample(
         "Invalid config for 'binary_sensor' from integration 'trend': min_samples must "
         "be smaller than or equal to max_samples" in record.message
     )
+
+
+async def test_device_id(
+    hass: HomeAssistant,
+    entity_registry: er.EntityRegistry,
+    device_registry: dr.DeviceRegistry,
+) -> None:
+    """Test for source entity device for Trend."""
+    source_config_entry = MockConfigEntry()
+    source_config_entry.add_to_hass(hass)
+    source_device_entry = device_registry.async_get_or_create(
+        config_entry_id=source_config_entry.entry_id,
+        identifiers={("sensor", "identifier_test")},
+        connections={("mac", "30:31:32:33:34:35")},
+    )
+    source_entity = entity_registry.async_get_or_create(
+        "sensor",
+        "test",
+        "source",
+        config_entry=source_config_entry,
+        device_id=source_device_entry.id,
+    )
+    await hass.async_block_till_done()
+    assert entity_registry.async_get("sensor.test_source") is not None
+
+    trend_config_entry = MockConfigEntry(
+        data={},
+        domain=DOMAIN,
+        options={
+            "name": "Trend",
+            "entity_id": "sensor.test_source",
+            "invert": False,
+        },
+        title="Trend",
+    )
+    trend_config_entry.add_to_hass(hass)
+
+    assert await hass.config_entries.async_setup(trend_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    trend_entity = entity_registry.async_get("binary_sensor.trend")
+    assert trend_entity is not None
+    assert trend_entity.device_id == source_entity.device_id
+
+
+@pytest.mark.parametrize(
+    "error_state",
+    [
+        STATE_UNKNOWN,
+        STATE_UNAVAILABLE,
+    ],
+)
+async def test_unavailable_source(
+    hass: HomeAssistant,
+    config_entry: MockConfigEntry,
+    freezer: FrozenDateTimeFactory,
+    setup_component: ComponentSetup,
+    error_state: str,
+) -> None:
+    """Test for unavailable source."""
+    await setup_component(
+        {
+            "sample_duration": 10000,
+            "min_gradient": 1,
+            "max_samples": 25,
+            "min_samples": 5,
+        },
+    )
+
+    for val in (10, 20, 30, 40, 50, 60):
+        freezer.tick(timedelta(seconds=2))
+        hass.states.async_set("sensor.test_state", val)
+        await hass.async_block_till_done()
+
+    assert hass.states.get("binary_sensor.test_trend_sensor").state == "on"
+
+    hass.states.async_set("sensor.test_state", error_state)
+    await hass.async_block_till_done()
+
+    assert hass.states.get("binary_sensor.test_trend_sensor").state == STATE_UNAVAILABLE
+
+    hass.states.async_set("sensor.test_state", 50)
+    await hass.async_block_till_done()
+
+    assert hass.states.get("binary_sensor.test_trend_sensor").state == "on"

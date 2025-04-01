@@ -1,6 +1,7 @@
 """The profiler integration."""
 
 import asyncio
+from collections.abc import Generator
 import contextlib
 from contextlib import suppress
 from datetime import timedelta
@@ -14,7 +15,6 @@ import traceback
 from typing import Any, cast
 
 from lru import LRU
-from typing_extensions import Generator
 import voluptuous as vol
 
 from homeassistant.components import persistent_notification
@@ -22,7 +22,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_SCAN_INTERVAL, CONF_TYPE
 from homeassistant.core import HomeAssistant, ServiceCall, callback
 from homeassistant.exceptions import HomeAssistantError
-import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.service import async_register_admin_service
 

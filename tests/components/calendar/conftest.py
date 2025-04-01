@@ -1,18 +1,18 @@
 """Test fixtures for calendar sensor platforms."""
 
+from collections.abc import Generator
 import datetime
 import secrets
 from typing import Any
 from unittest.mock import AsyncMock
 
 import pytest
-from typing_extensions import Generator
 
 from homeassistant.components.calendar import DOMAIN, CalendarEntity, CalendarEvent
 from homeassistant.config_entries import ConfigEntry, ConfigFlow
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.util import dt as dt_util
 
 from tests.common import (
@@ -145,7 +145,7 @@ def mock_setup_integration(
     async def async_setup_entry_platform(
         hass: HomeAssistant,
         config_entry: ConfigEntry,
-        async_add_entities: AddEntitiesCallback,
+        async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
         """Set up test event platform via config entry."""
         new_entities = create_test_entities()

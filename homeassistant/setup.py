@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 from collections import defaultdict
-from collections.abc import Awaitable, Callable, Mapping
+from collections.abc import Awaitable, Callable, Generator, Mapping
 import contextlib
 import contextvars
 from enum import StrEnum
@@ -13,8 +13,6 @@ import logging.handlers
 import time
 from types import ModuleType
 from typing import Any, Final, TypedDict
-
-from typing_extensions import Generator
 
 from . import config as conf_util, core, loader, requirements
 from .const import (
@@ -31,7 +29,7 @@ from .core import (
     callback,
 )
 from .exceptions import DependencyError, HomeAssistantError
-from .helpers import singleton, translation
+from .helpers import issue_registry as ir, singleton, translation
 from .helpers.issue_registry import IssueSeverity, async_create_issue
 from .helpers.typing import ConfigType
 from .util.async_ import create_eager_task
@@ -134,7 +132,13 @@ def async_set_domains_to_be_loaded(hass: core.HomeAssistant, domains: set[str]) 
      - Keep track of domains which will load but have not yet finished loading
     """
     setup_done_futures = hass.data.setdefault(DATA_SETUP_DONE, {})
-    setup_done_futures.update({domain: hass.loop.create_future() for domain in domains})
+    setup_futures = hass.data.setdefault(DATA_SETUP, {})
+    old_domains = set(setup_futures) | set(setup_done_futures) | hass.config.components
+    if overlap := old_domains & domains:
+        _LOGGER.debug("Domains to be loaded %s already loaded or pending", overlap)
+    setup_done_futures.update(
+        {domain: hass.loop.create_future() for domain in domains - old_domains}
+    )
 
 
 def setup_component(hass: core.HomeAssistant, domain: str, config: ConfigType) -> bool:
@@ -283,6 +287,20 @@ async def _async_setup_component(
         integration = await loader.async_get_integration(hass, domain)
     except loader.IntegrationNotFound:
         _log_error_setup_error(hass, domain, None, "Integration not found.")
+        if not hass.config.safe_mode and hass.config_entries.async_entries(domain):
+            ir.async_create_issue(
+                hass,
+                HOMEASSISTANT_DOMAIN,
+                f"integration_not_found.{domain}",
+                is_fixable=True,
+                issue_domain=HOMEASSISTANT_DOMAIN,
+                severity=IssueSeverity.ERROR,
+                translation_key="integration_not_found",
+                translation_placeholders={
+                    "domain": domain,
+                },
+                data={"domain": domain},
+            )
         return False
 
     log_error = partial(_log_error_setup_error, hass, domain, integration)
@@ -305,7 +323,7 @@ async def _async_setup_component(
             translation.async_load_integrations(hass, integration_set), loop=hass.loop
         )
     # Validate all dependencies exist and there are no circular dependencies
-    if not await integration.resolve_dependencies():
+    if await integration.resolve_dependencies() is None:
         return False
 
     # Process requirements as soon as possible, so we can import the component
@@ -369,7 +387,7 @@ async def _async_setup_component(
             },
         )
 
-    _LOGGER.info("Setting up %s", domain)
+    _LOGGER.debug("Setting up %s", domain)
 
     with async_start_setup(hass, integration=domain, phase=SetupPhases.SETUP):
         if hasattr(component, "PLATFORM_SCHEMA"):
@@ -413,8 +431,8 @@ async def _async_setup_component(
             )
             return False
         # pylint: disable-next=broad-except
-        except (asyncio.CancelledError, SystemExit, Exception):
-            _LOGGER.exception("Error during setup of component %s", domain)
+        except (asyncio.CancelledError, SystemExit, Exception) as exc:
+            _LOGGER.exception("Error during setup of component %s: %s", domain, exc)  # noqa: TRY401
             async_notify_setup_error(hass, domain, integration.documentation)
             return False
         finally:
@@ -765,7 +783,7 @@ def async_start_setup(
         # platforms, but we only care about the longest time.
         group_setup_times[phase] = max(group_setup_times[phase], time_taken)
         if group is None:
-            _LOGGER.info(
+            _LOGGER.debug(
                 "Setup of domain %s took %.2f seconds", integration, time_taken
             )
         elif _LOGGER.isEnabledFor(logging.DEBUG):

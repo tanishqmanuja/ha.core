@@ -3,6 +3,7 @@
   DeviceRegistryEntrySnapshot({
     'area_id': None,
     'config_entries': <ANY>,
+    'config_entries_subentries': <ANY>,
     'configuration_url': 'https://ecotrend.ista.de/',
     'connections': set({
     }),
@@ -21,9 +22,10 @@
     }),
     'manufacturer': 'ista SE',
     'model': 'ista EcoTrend',
+    'model_id': None,
     'name': 'Luxemburger Str. 1',
     'name_by_user': None,
-    'primary_integration': 'ista_ecotrend',
+    'primary_config_entry': <ANY>,
     'serial_number': None,
     'suggested_area': None,
     'sw_version': None,
@@ -34,6 +36,7 @@
   DeviceRegistryEntrySnapshot({
     'area_id': None,
     'config_entries': <ANY>,
+    'config_entries_subentries': <ANY>,
     'configuration_url': 'https://ecotrend.ista.de/',
     'connections': set({
     }),
@@ -52,9 +55,10 @@
     }),
     'manufacturer': 'ista SE',
     'model': 'ista EcoTrend',
+    'model_id': None,
     'name': 'Bahnhofsstr. 1A',
     'name_by_user': None,
-    'primary_integration': 'ista_ecotrend',
+    'primary_config_entry': <ANY>,
     'serial_number': None,
     'suggested_area': None,
     'sw_version': None,

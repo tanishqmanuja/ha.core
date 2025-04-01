@@ -11,17 +11,20 @@ import voluptuous as vol
 
 from homeassistant.components.sensor import (
     ENTITY_ID_FORMAT,
-    PLATFORM_SCHEMA,
+    PLATFORM_SCHEMA as SENSOR_PLATFORM_SCHEMA,
     SensorEntity,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_DISPLAY_OPTIONS, EVENT_CORE_CONFIG_UPDATE
 from homeassistant.core import CALLBACK_TYPE, Event, HomeAssistant, callback
-import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.entity_platform import (
+    AddConfigEntryEntitiesCallback,
+    AddEntitiesCallback,
+)
 from homeassistant.helpers.event import async_track_point_in_utc_time
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
-import homeassistant.util.dt as dt_util
+from homeassistant.util import dt as dt_util
 
 from .const import OPTION_TYPES
 
@@ -30,7 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 TIME_STR_FORMAT = "%H:%M"
 
 
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
     {
         vol.Optional(CONF_DISPLAY_OPTIONS, default=["time"]): vol.All(
             cv.ensure_list, [vol.In(OPTION_TYPES)]
@@ -48,7 +51,7 @@ async def async_setup_platform(
     """Set up the Time and Date sensor."""
     if hass.config.time_zone is None:
         _LOGGER.error("Timezone is not set in Home Assistant configuration")  # type: ignore[unreachable]
-        return False
+        return
 
     async_add_entities(
         [TimeDateSensor(variable) for variable in config[CONF_DISPLAY_OPTIONS]]
@@ -56,7 +59,9 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Time & Date sensor."""
 

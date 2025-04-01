@@ -6,6 +6,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -35,7 +36,6 @@
 # name: test_entity_state_attrs[button.i3_rex_activate_air_conditioning-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i3 (+ REX) Activate air conditioning',
     }),
     'context': <ANY>,
@@ -53,6 +53,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -82,7 +83,6 @@
 # name: test_entity_state_attrs[button.i3_rex_find_vehicle-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i3 (+ REX) Find vehicle',
     }),
     'context': <ANY>,
@@ -100,6 +100,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -129,7 +130,6 @@
 # name: test_entity_state_attrs[button.i3_rex_flash_lights-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i3 (+ REX) Flash lights',
     }),
     'context': <ANY>,
@@ -147,6 +147,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -176,7 +177,6 @@
 # name: test_entity_state_attrs[button.i3_rex_sound_horn-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i3 (+ REX) Sound horn',
     }),
     'context': <ANY>,
@@ -194,6 +194,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -223,7 +224,6 @@
 # name: test_entity_state_attrs[button.i4_edrive40_activate_air_conditioning-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i4 eDrive40 Activate air conditioning',
     }),
     'context': <ANY>,
@@ -241,6 +241,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -270,7 +271,6 @@
 # name: test_entity_state_attrs[button.i4_edrive40_deactivate_air_conditioning-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i4 eDrive40 Deactivate air conditioning',
     }),
     'context': <ANY>,
@@ -288,6 +288,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -317,7 +318,6 @@
 # name: test_entity_state_attrs[button.i4_edrive40_find_vehicle-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i4 eDrive40 Find vehicle',
     }),
     'context': <ANY>,
@@ -335,6 +335,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -364,7 +365,6 @@
 # name: test_entity_state_attrs[button.i4_edrive40_flash_lights-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i4 eDrive40 Flash lights',
     }),
     'context': <ANY>,
@@ -382,6 +382,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -411,7 +412,6 @@
 # name: test_entity_state_attrs[button.i4_edrive40_sound_horn-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'i4 eDrive40 Sound horn',
     }),
     'context': <ANY>,
@@ -429,6 +429,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -458,7 +459,6 @@
 # name: test_entity_state_attrs[button.ix_xdrive50_activate_air_conditioning-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'iX xDrive50 Activate air conditioning',
     }),
     'context': <ANY>,
@@ -476,6 +476,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -505,7 +506,6 @@
 # name: test_entity_state_attrs[button.ix_xdrive50_deactivate_air_conditioning-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'iX xDrive50 Deactivate air conditioning',
     }),
     'context': <ANY>,
@@ -523,6 +523,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -552,7 +553,6 @@
 # name: test_entity_state_attrs[button.ix_xdrive50_find_vehicle-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'iX xDrive50 Find vehicle',
     }),
     'context': <ANY>,
@@ -570,6 +570,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -599,7 +600,6 @@
 # name: test_entity_state_attrs[button.ix_xdrive50_flash_lights-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'iX xDrive50 Flash lights',
     }),
     'context': <ANY>,
@@ -617,6 +617,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -646,7 +647,6 @@
 # name: test_entity_state_attrs[button.ix_xdrive50_sound_horn-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'iX xDrive50 Sound horn',
     }),
     'context': <ANY>,
@@ -664,6 +664,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -693,7 +694,6 @@
 # name: test_entity_state_attrs[button.m340i_xdrive_activate_air_conditioning-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'M340i xDrive Activate air conditioning',
     }),
     'context': <ANY>,
@@ -711,6 +711,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -740,7 +741,6 @@
 # name: test_entity_state_attrs[button.m340i_xdrive_deactivate_air_conditioning-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'M340i xDrive Deactivate air conditioning',
     }),
     'context': <ANY>,
@@ -758,6 +758,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -787,7 +788,6 @@
 # name: test_entity_state_attrs[button.m340i_xdrive_find_vehicle-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'M340i xDrive Find vehicle',
     }),
     'context': <ANY>,
@@ -805,6 +805,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -834,7 +835,6 @@
 # name: test_entity_state_attrs[button.m340i_xdrive_flash_lights-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'M340i xDrive Flash lights',
     }),
     'context': <ANY>,
@@ -852,6 +852,7 @@
     'area_id': None,
     'capabilities': None,
     'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
     'device_class': None,
     'device_id': <ANY>,
     'disabled_by': None,
@@ -881,7 +882,6 @@
 # name: test_entity_state_attrs[button.m340i_xdrive_sound_horn-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': 'Data provided by MyBMW',
       'friendly_name': 'M340i xDrive Sound horn',
     }),
     'context': <ANY>,
